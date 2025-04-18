@@ -1,0 +1,29 @@
+# docker image: simplytcl
+#
+# learning purposes
+#
+# author: michael feurstein
+#
+# basic image running:
+# alpine
+# tcl 8.6.15 - installed via apk
+#
+# run image:
+#
+# references used:
+#   building an image: https://github.com/gjrtimmer/docker-alpine-tcl/blob/d76ffe1200b8c0551893ff96e07115621d36c575/Dockerfile
+
+FROM alpine:latest
+RUN apk add --upgrade --no-cache --update tcl
+RUN apk upgrade --update --no-cache
+
+COPY printVersion.tcl /printVersion.tcl
+RUN chmod +x /printVersion.tcl
+
+# v1 - entrypoint tclsh
+# docker run -it simplytcl:latest
+#ENTRYPOINT [ "tclsh" ]
+
+# v2 - run tcl script
+# docker run simplytcl:latest
+ENTRYPOINT [ "tclsh" , "printVersion.tcl" ]
