@@ -2,7 +2,8 @@
 
 **simplytcl**
 
-a first image for learning purposes.
+a first image for learning purposes.  
+docker hub: [simplytcl](https://hub.docker.com/r/michaelfeurstein/simplytcl)
 
 `docker run -it simplytcl:latest`
 
