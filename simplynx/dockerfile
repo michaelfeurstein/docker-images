@@ -1,0 +1,57 @@
+# docker image
+#
+# simplynx
+#
+# author: michael feurstein
+#
+# basic image running:
+# alpine
+# tcl 8.6.15
+# nsf 2..4.0
+# tdom 0.9.5
+#
+# references used:
+#   building an image: https://github.com/gjrtimmer/docker-alpine-tcl/blob/d76ffe1200b8c0551893ff96e07115621d36c575/Dockerfile
+#   setting up an entrypoint script: https://medium.com/@BioCatchTechBlog/passing-arguments-to-a-docker-container-299d042e5ce 
+
+FROM alpine:latest
+RUN apk add --upgrade --no-cache --update wget git tar gzip
+RUN apk upgrade --update --no-cache
+RUN apk add --no-cache bash gcc musl-dev make tcl tcl-dev
+RUN mkdir /usr/local/src
+
+# nsf
+RUN wget -O /usr/local/src/nsf2.4.0.tar.gz 'https://sourceforge.net/projects/next-scripting/files/2.4.0/nsf2.4.0.tar.gz/download' && \
+cd /usr/local/src/ && \
+tar -xvf /usr/local/src/nsf2.4.0.tar.gz && \
+cd nsf2.4.0/ && \
+./configure && \
+make test && \
+make && \
+make install && \
+cd /
+
+# tdom
+RUN wget -O /usr/local/src/tdom-0.9.5.tar.gz 'http://tdom.org/downloads/tdom-0.9.5-src.tgz' && \
+cd /usr/local/src/ && \
+tar -xvf /usr/local/src/tdom-0.9.5.tar.gz && \
+cd tdom-0.9.5-src/ && \
+./configure && \
+make && \
+make install && \
+cd /
+
+WORKDIR /
+
+COPY printVersion.tcl /printVersion.tcl
+RUN chmod +x /printVersion.tcl
+
+# v1
+#ENTRYPOINT [ "nxsh" ]
+
+# v2
+COPY entrypoint /entrypoint
+RUN chmod +x /entrypoint
+ENTRYPOINT [ "bash" , "entrypoint" ]
+
+# EOF
