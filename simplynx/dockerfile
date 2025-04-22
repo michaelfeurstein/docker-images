@@ -43,15 +43,11 @@ cd /
 
 WORKDIR /
 
-COPY printVersion.tcl /printVersion.tcl
-RUN chmod +x /printVersion.tcl
-
-# v1
-#ENTRYPOINT [ "nxsh" ]
-
-# v2
-COPY entrypoint /entrypoint
-RUN chmod +x /entrypoint
-ENTRYPOINT [ "bash" , "entrypoint" ]
+# entrypoint
+# bash script can take file as arguments
+# calls nxsh with arguments
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT [ "bash" , "entrypoint.sh" ]
 
 # EOF

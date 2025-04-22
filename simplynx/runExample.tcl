@@ -1,4 +1,5 @@
-# reference example: https://next-scripting.org/xowiki/file/docs/nx/examples/per-object-mixins.html?html-content=1
+# nx example
+# sources: https://next-scripting.org/xowiki/file/docs/nx/examples/per-object-mixins.html?html-content=1
 
 nx::Class create BaseClass {
   :public method speak {} {

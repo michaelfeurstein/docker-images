@@ -7,6 +7,7 @@ do
   echo "### Got variable $i ###"
 done
 echo "args_count = $#"
+echo "calling: /usr/bin/nxsh $@"
 eval "/usr/bin/nxsh $@"
 
 # EOF
