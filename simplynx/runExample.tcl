@@ -12,7 +12,14 @@ nx::Class create DerivedClass -superclass BaseClass {
     next
     puts "Hello from DC."
   }
+
+  :public method write {} {
+    set outfile [open "/usr/local/example.txt" w+]
+    puts $outfile "hello from write method"
+    close $outfile
+  }
 }
 
 DerivedClass create o1
 o1 speak
+o1 write
