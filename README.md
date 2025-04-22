@@ -14,6 +14,8 @@ or
 **simplynx**
 
 An image running next-scripting framework (nx 2.4.0) and tdom 0.9.5  
+dockerhub: [simplynx](https://hub.docker.com/r/michaelfeurstein/simplynx)  
+  
 `entrypoint.sh` is setup to take in arguments to start a tcl/nx script inside image  
 `runExample.tcl` and `testFile.tcl` are not included in image  
 Note that `runExample.tcl` will create an example.txt in /usr/local bind mounted directory
