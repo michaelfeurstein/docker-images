@@ -22,8 +22,10 @@ RUN chmod +x /printVersion.tcl
 
 # v1 - entrypoint tclsh
 # docker run -it simplytcl:latest
-#ENTRYPOINT [ "tclsh" ]
+ENTRYPOINT [ "tclsh" ]
 
 # v2 - run tcl script
 # docker run simplytcl:latest
-ENTRYPOINT [ "tclsh" , "printVersion.tcl" ]
+#ENTRYPOINT [ "tclsh" , "printVersion.tcl" ]
+
+# EOF
