@@ -1,0 +1,60 @@
+# docker image
+#
+# simplySBL
+# docker for storyboard-language
+#
+# author: michael feurstein
+#
+# image running:
+# alpine
+# tcl 8.6.15
+# nsf 2..4.0
+# tdom 0.9.5
+# storyboard-language
+#
+# references used:
+#   building an image: https://github.com/gjrtimmer/docker-alpine-tcl/blob/d76ffe1200b8c0551893ff96e07115621d36c575/Dockerfile
+#   setting up an entrypoint script: https://medium.com/@BioCatchTechBlog/passing-arguments-to-a-docker-container-299d042e5ce 
+#   git clone in docker: https://stackoverflow.com/questions/49582202/cloning-a-git-repo-in-dockerfile-and-working-off-it
+
+FROM alpine:latest
+RUN apk add --upgrade --no-cache --update wget git tar gzip
+RUN apk upgrade --update --no-cache
+RUN apk add --no-cache bash gcc musl-dev make tcl tcl-dev
+RUN mkdir /usr/local/src
+
+# nsf
+RUN wget -O /usr/local/src/nsf2.4.0.tar.gz 'https://sourceforge.net/projects/next-scripting/files/2.4.0/nsf2.4.0.tar.gz/download' && \
+cd /usr/local/src/ && \
+tar -xvf /usr/local/src/nsf2.4.0.tar.gz && \
+cd nsf2.4.0/ && \
+./configure && \
+make test && \
+make && \
+make install && \
+cd /
+
+# tdom
+RUN wget -O /usr/local/src/tdom-0.9.5.tar.gz 'http://tdom.org/downloads/tdom-0.9.5-src.tgz' && \
+cd /usr/local/src/ && \
+tar -xvf /usr/local/src/tdom-0.9.5.tar.gz && \
+cd tdom-0.9.5-src/ && \
+./configure && \
+make && \
+make install && \
+cd /
+
+# storyboard-language
+RUN git clone https://github.com/michaelfeurstein/storyboard-language.git /usr/local/sbl
+COPY visitor.tcl /usr/local/sbl/visitor.tcl
+
+WORKDIR /usr/local/sbl
+
+# entrypoint
+# bash script can take file as arguments
+# calls nxsh with arguments
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT [ "bash" , "../../../entrypoint.sh" ]
+
+# EOF
