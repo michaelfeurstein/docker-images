@@ -1,2 +1,2 @@
-puts "testfile: hello [lindex $argv 0]"
+puts "testfile about to run: [lindex $argv 0]"
 source [lindex $argv 0]
